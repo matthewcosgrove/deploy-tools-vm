@@ -10,9 +10,9 @@ FINAL_PIPELINE_YAML="$output_file" "${SCRIPT_DIR}"/merge_for_repipe
 pipeline_name="packer-tools-vm"
 set +u # Important
 if [ ! -z "$FLY_NON_INTERACTIVE" ] && [ "$FLY_NON_INTERACTIVE" == "true" ]; then
-  fly -t bucc set-pipeline -p "${pipeline_name}" --config "${output_file}" -n
+  fly -t "${FLY_TARGET}" set-pipeline -p "${pipeline_name}" --config "${output_file}" -n
 else
-  fly -t bucc set-pipeline -p "${pipeline_name}" --config "${output_file}"
+  fly -t "${FLY_TARGET}" set-pipeline -p "${pipeline_name}" --config "${output_file}"
 fi
 
-fly -t bucc unpause-pipeline -p "${pipeline_name}"
+fly -t "${FLY_TARGET}" unpause-pipeline -p "${pipeline_name}"

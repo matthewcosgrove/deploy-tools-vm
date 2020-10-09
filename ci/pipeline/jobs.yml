@@ -1,9 +1,9 @@
 jobs:
-- name: ubuntu-tools-vm-ubuntu
+- name: ubuntu-tools-vm-infra
   serial: true
   plan:
   - in_parallel:
-    - { get: infra-template-packer-build-config, trigger: true }
+    - { get: ubuntu-template-packer-build-config, trigger: true }
     - { get: concourse-tasks }
   - task: build-infra-template
     file: concourse-tasks/ci/tasks/ubuntu-tools-vm-infra/build-infra-template/task.yml
