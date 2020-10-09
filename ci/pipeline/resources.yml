@@ -3,15 +3,12 @@ resources:
     type: git
     check_every: 1m
     source:
-      uri: git@github.com:matthewcosgrove/deploy-tools-vm.git
-      private_key: ((git_ssh.private_key))
+      uri: https://github.com/matthewcosgrove/deploy-tools-vm.git
       paths: [ci/tasks/*]
 
   - name: ubuntu-template-packer-build-config
     type: git
     check_every: 1m
     source:
-      uri: git@github.com:matthewcosgrove/deploy-tools-vm.git
-      private_key: ((git_ssh.private_key))
+      uri: https://github.com/matthewcosgrove/deploy-tools-vm.git
       paths: [packer/ubuntu/*]
-      branch: master
