@@ -4,7 +4,6 @@ set -euo pipefail
 
 : "${FLY_TARGET:? FLY_TARGET must be set }"
 : "${VMWARE_TEMPLATE_NAME:? VMWARE_TEMPLATE_NAME must be set to one that pre-exists in vcenter }"
-: "${VM_PASSWORD:? VM_PASSWORD must be set }"
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -26,7 +25,6 @@ input_commit_sha_repo="--input=ubuntu-template-packer-build-config=${SCRIPT_DIR}
 "$SCRIPT_DIR/../ci/util_execute_task.sh" "$FLY_TARGET" "${task_identifier}" \
 	"${input_commit_sha_repo}" \
 	-v ubuntu_vm_username="ubuntu" \
-	-v ubuntu_vm_password="${VM_PASSWORD}" \
         --include-ignored # Needed for including the .git folder
 
 #"$SCRIPT_DIR/../ci/util_execute_task.sh" "$FLY_TARGET" ubuntu-day-one/teardown-vm \
