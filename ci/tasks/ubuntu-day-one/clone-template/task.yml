@@ -1,0 +1,33 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: mattcosgrove/govc
+    tag: latest
+
+inputs:
+  - name: ubuntu-template-packer-build-config
+  - name: concourse-tasks
+
+params:
+  GOVC_URL: ((govc_url))
+  GOVC_DATACENTER: ((govc_datacenter))
+  GOVC_CLUSTER: ((govc_cluster))
+  GOVC_NETWORK: ((govc_network))
+  GOVC_FOLDER: ((govc_vm_folder_path))
+  GOVC_USERNAME: ((vcenter_username))
+  GOVC_PASSWORD: ((vcenter_password))
+  GOVC_INSECURE: true
+  GOVC_DATASTORE: ((vcenter_primary_datastore))
+  GOVC_RESOURCE_POOL: ((vcenter_resource_pool_name))
+  VM_TEMPLATE_HOSTNAME: "ubuntu-tools-vm"
+  VM_HOSTNAME: "concourse-test-ubuntu-tools-vm"
+  VM_USERNAME: ((vm_username))
+  VM_PASSWORD: ((vm_password))
+  USE_COMMIT_SHA_FOR_VM_NAME_SUFFIX: true
+
+run:
+  path: ./concourse-tasks/ci/tasks/ubuntu-day-one/clone-template/task.sh
+

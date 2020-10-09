@@ -1,0 +1,27 @@
+jobs:
+- name: ubuntu-tools-vm-ubuntu
+  serial: true
+  plan:
+  - in_parallel:
+    - { get: infra-template-packer-build-config, trigger: true }
+    - { get: concourse-tasks }
+  - task: build-infra-template
+    file: concourse-tasks/ci/tasks/ubuntu-tools-vm-infra/build-infra-template/task.yml
+    attempts: 5
+    vars:
+      vm_hostname: "ubuntu-tools-vm"
+      vm_username: "ubuntu"
+      vm_password: ((ubuntu_vm_password))
+      packer_file_relative_path_dir: "packer/ubuntu"
+      packer_json_file_name: "ubuntu_1804.json"
+- name: ubuntu-day-one
+  serial: true
+  plan:
+  - in_parallel:
+    - { get: ubuntu-template-packer-build-config, trigger: true, passed: [ubuntu-tools-vm-infra] }
+    - { get: concourse-tasks }
+  - task: clone-template
+    file: concourse-tasks/ci/tasks/ubuntu-day-one/clone-template/task.yml
+    vars:
+      vm_username: "ubuntu"
+      vm_password: ((ubuntu_vm_password))

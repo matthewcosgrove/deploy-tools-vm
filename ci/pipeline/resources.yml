@@ -1,0 +1,17 @@
+resources:
+  - name: concourse-tasks
+    type: git
+    check_every: 1m
+    source:
+      uri: git@github.com:matthewcosgrove/deploy-tools-vm.git
+      private_key: ((git_ssh.private_key))
+      paths: [ci/tasks/*]
+
+  - name: ubuntu-template-packer-build-config
+    type: git
+    check_every: 1m
+    source:
+      uri: git@github.com:matthewcosgrove/deploy-tools-vm.git
+      private_key: ((git_ssh.private_key))
+      paths: [packer/ubuntu/*]
+      branch: master

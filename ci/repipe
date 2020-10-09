@@ -1,0 +1,18 @@
+#!/bin/bash
+set -euo pipefail
+REPO_ROOT_DIR="$(dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd ))"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+output_file=".deploy.yml"
+trap "rm -f $output_file" QUIT TERM EXIT INT
+FINAL_PIPELINE_YAML="$output_file" "${SCRIPT_DIR}"/merge_for_repipe
+
+pipeline_name="packer-tools-vm"
+set +u # Important
+if [ ! -z "$FLY_NON_INTERACTIVE" ] && [ "$FLY_NON_INTERACTIVE" == "true" ]; then
+  fly -t bucc set-pipeline -p "${pipeline_name}" --config "${output_file}" -n
+else
+  fly -t bucc set-pipeline -p "${pipeline_name}" --config "${output_file}"
+fi
+
+fly -t bucc unpause-pipeline -p "${pipeline_name}"

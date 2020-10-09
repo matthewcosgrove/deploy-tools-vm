@@ -1,0 +1,39 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: 
+    repository: mattcosgrove/govc-packer
+    tag: latest
+    
+inputs:
+  - name: concourse-tasks
+  - name: ubuntu-template-packer-build-config
+
+params:
+  PACKER_CONVERT_TO_TEMPLATE: true
+  PACKER_JSON_FILE_NAME: ((packer_json_file_name)) # var not credhub
+  PACKER_FILE_INPUT_ALIAS_DIR: "ubuntu-template-packer-build-config"
+  PACKER_FILE_RELATIVE_PATH_DIR: ((packer_file_relative_path_dir)) # var not credhub
+  VCENTER_SERVER: ((govc_url))
+  VCENTER_DATACENTER: ((govc_datacenter))
+  VCENTER_CLUSTER: ((govc_cluster))
+  VCENTER_NETWORK: ((govc_network))
+  VCENTER_USERNAME: ((vcenter_username))
+  VCENTER_PASSWORD: ((vcenter_password))
+  VCENTER_DATASTORE: ((vcenter_primary_datastore))
+  VCENTER_FOLDER_NAME: ((vcenter_folder_name))
+  VCENTER_RESOURCE_POOL_NAME: ((vcenter_resource_pool_name))
+  VM_HOSTNAME: ((vm_hostname)) # var not credhub
+  VM_USERNAME: ((vm_username)) # var not credhub
+  VM_PASSWORD: ((vm_password)) # var not credhub
+  GOVC_URL: ((govc_url))
+  GOVC_USERNAME: ((vcenter_username))
+  GOVC_PASSWORD: ((vcenter_password))
+  GOVC_DATACENTER: ((govc_datacenter))
+  GOVC_INSECURE: true
+  GOVC_FOLDER: ((govc_vm_folder_path))
+
+run:
+  path: ./concourse-tasks/ci/tasks/ubuntu-tools-vm-infra/build-infra-template/task.sh
