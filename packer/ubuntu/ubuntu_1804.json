@@ -1,0 +1,83 @@
+{
+    "builders": [
+      {
+        "type": "vsphere-iso",
+	"convert_to_template": "{{user `convert_to_template`}}",
+        "cluster": "{{user `vcenter_cluster`}}",
+        "resource_pool": "{{user `vcenter_resource_pool`}}",
+        "datastore": "{{user `vcenter_datastore`}}",
+        "folder": "{{user `vcenter_folder`}}",
+        "username": "{{user `vcenter_username`}}",
+        "password": "{{user `vcenter_password`}}",
+        "vcenter_server": "{{user `vcenter_server`}}",
+        "insecure_connection": "true",
+        "network_adapters": [
+          {
+            "network": "{{user `vcenter_network`}}",
+            "network_card": "vmxnet3"
+          }
+        ],
+        "ssh_password": "{{user `vm_password`}}",
+        "ssh_username": "{{user `vm_username`}}",
+
+        "vm_name": "{{user `vm_hostname`}}",
+	"iso_checksum": "sha256:8c5fc24894394035402f66f3824beb7234b757dd2b5531379cb310cedfdf0996",
+        "iso_urls": "http://cdimage.ubuntu.com/releases/18.04.5/release/ubuntu-18.04.5-server-amd64.iso",
+        "CPUs": 2,
+        "RAM": 10240,
+        "RAM_reserve_all": true,
+        "storage": [
+          {
+            "disk_size": 32768,
+            "disk_thin_provisioned": true
+          }
+        ],
+        "boot_command": [
+          "<enter><wait><f6><wait><esc><wait>",
+          "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+          "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+          "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+          "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+          "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+          "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+          "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+          "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+          "<bs><bs><bs>",
+          "/install/vmlinuz",
+          " initrd=/install/initrd.gz",
+          " priority=critical",
+          " locale=en_US",
+          " vm_username={{user `vm_username`}}",
+          " passwd/user-fullname={{ user `vm_username` }}",
+          " passwd/user-password={{ user `vm_password` }}",
+          " passwd/user-password-again={{ user `vm_password` }}",
+          " passwd/username={{ user `vm_username` }}",
+          " user-setup/allow-password-weak boolean true",
+          " passwd/root-login boolean true",
+          " passwd/root-password password {{ user `vm_username` }}",
+          " passwd/root-password-again password {{ user `vm_username` }}",
+          " netcfg/get_hostname={{user `vm_hostname`}}<wait>",
+          " file=/media/preseed.cfg",
+          "<enter>"
+        ],
+        "boot_order": "disk,cdrom",
+        "disk_controller_type": "pvscsi",
+        "floppy_files": [
+          "./preseed.cfg"
+        ],
+        "guest_os_type": "ubuntu64Guest"        
+      }
+    ],
+    "provisioners": [
+      {
+          "type": "shell",
+          "execute_command": "echo '{{user `vm_username`}}' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+          "script": "scripts/configure_machineid.sh"
+      },
+      {
+          "type": "shell",
+          "execute_command": "echo '{{user `vm_username`}}' | {{.Vars}} sudo -u {{user `vm_username`}} -S -E bash '{{.Path}}'",
+          "script": "scripts/install_ansible.sh"
+      }
+    ]
+  }
