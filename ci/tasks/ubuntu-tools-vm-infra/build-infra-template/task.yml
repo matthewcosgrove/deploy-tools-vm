@@ -25,9 +25,9 @@ params:
   VCENTER_DATASTORE: ((vcenter_primary_datastore))
   VCENTER_FOLDER_NAME: ((vcenter_folder_name))
   VCENTER_RESOURCE_POOL_NAME: ((vcenter_resource_pool_name))
-  VM_HOSTNAME: ((vm_hostname)) # var not credhub
-  VM_USERNAME: ((vm_username)) # var not credhub
-  VM_PASSWORD: ((vm_password)) # var not credhub
+  VM_HOSTNAME: ((ubuntu_vm_hostname)) # var not credhub
+  VM_USERNAME: ((ubuntu_vm_username)) # var not credhub
+  VM_PASSWORD: ((ubuntu_vm_password))
   GOVC_URL: ((govc_url))
   GOVC_USERNAME: ((vcenter_username))
   GOVC_PASSWORD: ((vcenter_password))

@@ -24,8 +24,8 @@ params:
   GOVC_RESOURCE_POOL: ((vcenter_resource_pool_name))
   VM_TEMPLATE_HOSTNAME: "ubuntu-tools-vm"
   VM_HOSTNAME: "concourse-test-ubuntu-tools-vm"
-  VM_USERNAME: ((vm_username))
-  VM_PASSWORD: ((vm_password))
+  VM_USERNAME: ((ubuntu_vm_username))
+  VM_PASSWORD: ((ubuntu_vm_password))
   USE_COMMIT_SHA_FOR_VM_NAME_SUFFIX: true
 
 run:
