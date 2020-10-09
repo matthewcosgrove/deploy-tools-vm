@@ -15,4 +15,3 @@ fly -t "${fly_target}" e -c "${REPO_ROOT_DIR}"/"${TASKS_PARENT_DIR_NAME}"/tasks/
 	--input="concourse-tasks=${REPO_ROOT_DIR}" \
 	"$@"
 set +x
-

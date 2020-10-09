@@ -25,8 +25,8 @@ task_identifier="ubuntu-day-one/clone-template"
 input_commit_sha_repo="--input=ubuntu-template-packer-build-config=${SCRIPT_DIR}/.."
 "$SCRIPT_DIR/../ci/util_execute_task.sh" "$FLY_TARGET" "${task_identifier}" \
 	"${input_commit_sha_repo}" \
-	-v vm_username="ubuntu" \
-	-v vm_password="${VM_PASSWORD}" \
+	-v ubuntu_vm_username="ubuntu" \
+	-v ubuntu_vm_password="${VM_PASSWORD}" \
         --include-ignored # Needed for including the .git folder
 
 #"$SCRIPT_DIR/../ci/util_execute_task.sh" "$FLY_TARGET" ubuntu-day-one/teardown-vm \
