@@ -22,5 +22,5 @@ if [[ $(govc vm.info "${VM_HOSTNAME}") ]];then
   get_vm_ip
   exit 0
 fi
-./concourse-tasks/ci/tasks/scripts/clone_from_template.sh
+./concourse-tasks/scripts/clone_from_template.sh
 get_vm_ip

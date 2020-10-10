@@ -20,4 +20,4 @@ if [[ $(govc vm.info "${VM_HOSTNAME}") ]]; then
 else
     echo "no VM ${VM_HOSTNAME} found. Proceeding.."
 fi
-./concourse-tasks/ci/tasks/scripts/packer_build_infra_template.sh
+./concourse-tasks/scripts/packer_build_infra_template.sh
