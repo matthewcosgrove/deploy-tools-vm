@@ -12,3 +12,10 @@ resources:
     source:
       uri: https://github.com/matthewcosgrove/deploy-tools-vm.git
       paths: [packer/ubuntu/*]
+
+  - name: ubuntu-ansible-playbook
+    type: git
+    check_every: 1m
+    source:
+      uri: https://github.com/matthewcosgrove/deploy-tools-vm.git
+      paths: [ansible/ubuntu/*]

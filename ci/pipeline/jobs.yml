@@ -18,8 +18,13 @@ jobs:
   plan:
   - in_parallel:
     - { get: ubuntu-template-packer-build-config, trigger: true, passed: [ubuntu-tools-vm-infra] }
+    - { get: ubuntu-ansible-playbook, trigger: true }
     - { get: concourse-tasks }
   - task: clone-template
     file: concourse-tasks/ci/tasks/ubuntu-day-one/clone-template/task.yml
+    vars:
+      ubuntu_vm_username: "ubuntu"
+  - task: run-ansible-playbook
+    file: concourse-tasks/ci/tasks/ubuntu-day-one/run-ansible-playbook/task.yml
     vars:
       ubuntu_vm_username: "ubuntu"
