@@ -10,3 +10,8 @@ if "${USE_COMMIT_SHA_FOR_VM_NAME_SUFFIX}";then
   export VM_HOSTNAME="${VM_HOSTNAME}"-"${commit_sha}"
 fi
 ./concourse-tasks/ci/tasks/scripts/clone_from_template.sh
+echo "Retrieving IP address of VM $VM_HOSTNAME for next task"
+vm_ip_address=$(govc vm.ip $VM_HOSTNAME)
+cat <<EOF > vm-ip-address/ip.txt
+${vm_ip_address}
+EOF

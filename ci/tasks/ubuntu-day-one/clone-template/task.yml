@@ -11,6 +11,9 @@ inputs:
   - name: ubuntu-template-packer-build-config
   - name: concourse-tasks
 
+outputs:
+  - name: vm-ip-address
+
 params:
   GOVC_URL: ((govc_url))
   GOVC_DATACENTER: ((govc_datacenter))
