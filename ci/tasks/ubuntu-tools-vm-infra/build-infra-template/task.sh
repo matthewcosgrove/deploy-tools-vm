@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [ ${#VM_PASSWORD} -le 7 ]; then 
-  echo "Error password should be 8 chars or more"
+  echo "Error: password supplied via env var VM_PASSWORD should be 8 chars or more"
   exit 1
 fi
 
