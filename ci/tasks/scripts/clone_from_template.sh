@@ -1,10 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-if [[ $(govc vm.info "${VM_HOSTNAME}") ]];then
-  echo "Found VM already exists with name ${VM_HOSTNAME}, skipping clone from template"
-  exit 0
-fi
 env | grep GOVC_ | grep -i -v password
 env | grep VM_ | grep -i -v password
 template_path="${GOVC_FOLDER}"/"${VM_TEMPLATE_HOSTNAME}"
