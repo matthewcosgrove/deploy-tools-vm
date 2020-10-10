@@ -25,5 +25,5 @@ ansible-inventory -i "${INVENTORY_FILE}" --list
 
 ansible -i "${INVENTORY_FILE}" -m ping tools
 
-# ansible-playbook -vvv -i "${INVENTORY_FILE}" ubuntu-ansible-playbook/ansible/ubuntu/playbook.yml
+ansible-playbook -vvv -i "${INVENTORY_FILE}" ubuntu-ansible-playbook/ansible/ubuntu/playbook.yml
 
