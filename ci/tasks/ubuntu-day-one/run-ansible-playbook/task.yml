@@ -1,0 +1,21 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: geerlingguy/docker-ubuntu1804-ansible
+    tag: latest
+
+inputs:
+  - name: ubuntu-ansible-playbook
+  - name: vm-ip-address
+  - name: concourse-tasks
+
+params:
+  VM_USERNAME: ((ubuntu_vm_username))
+  VM_PASSWORD: ((ubuntu_vm_password))
+
+run:
+  path: ./concourse-tasks/ci/tasks/ubuntu-day-one/run-ansible-playbook/task.sh
+
