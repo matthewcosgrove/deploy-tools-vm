@@ -1,6 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
+if [ ${#VM_PASSWORD} -le 7 ]; then 
+  echo "Error password should be 8 chars or more"
+  exit 1
+fi
+
 abs_path="$(pwd)"
 export PACKER_JSON_FILE_DIR="${abs_path}/${PACKER_FILE_INPUT_ALIAS_DIR}/${PACKER_FILE_RELATIVE_PATH_DIR}"
 pushd "${PACKER_FILE_INPUT_ALIAS_DIR}" > /dev/null
