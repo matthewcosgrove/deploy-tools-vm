@@ -1,8 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-apt update
-apt install sshpass -y
 ansible --version
 
 vm_ip_address=$(cat vm-ip-address/ip.txt)
@@ -25,5 +23,5 @@ ansible-inventory -i "${INVENTORY_FILE}" --list
 
 ansible -i "${INVENTORY_FILE}" -m ping tools
 
-ansible-playbook -vvv -i "${INVENTORY_FILE}" ubuntu-ansible-playbook/ansible/ubuntu/playbook.yml
-
+ansible-galaxy collection install matthewcosgrove.tools_vm
+ansible-playbook -i "${INVENTORY_FILE}" ubuntu-ansible-playbook/ansible/ubuntu/playbook.yml

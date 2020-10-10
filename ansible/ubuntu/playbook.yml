@@ -1,9 +1,12 @@
 ---
-# This playbook prints a simple debug message
-- name: Echo 
+- name: Provision Tools VM
   hosts: all
 
+  collections:
+  - matthewcosgrove.tools_vm
   tasks:
-  - name: Print debug message
-    debug:
-      msg: Hello, world!
+  - name: "Include ubuntu_user"
+    include_role:
+      name: "ubuntu_user"
+    vars:
+      ansible_become: yes
