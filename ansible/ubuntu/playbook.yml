@@ -66,11 +66,50 @@
      - .vimrc
      - .bash_aliases
      - .functions
-  - name: Insert/Update source of .functions in .bashrc
+  - name: Insert/Update .profile
     blockinfile:
-      path: /home/ubuntu/.bashrc
-      marker: "# {mark} ANSIBLE MANAGED BLOCK"
+      path: /home/ubuntu/.profile
+      insertbefore: BOF
+      marker: "# {mark} ANSIBLE MANAGED BLOCK FOR BUCC HELPERS"
       block: |
-        if [ -f ~/.functions ]; then
-            . ~/.functions
+        export BUCC_WRAPPER_ROOT_DIR="/home/ubuntu/lab-ops"
+        state_repo_root_dir="/home/ubuntu/lab-ops-state"
+        export BBL_STATE_DIR="${state_repo_root_dir}/state" # BBL_STATE_DIR is the convention use by BUCC https://github.com/starkandwayne/bucc/blob/2af7a2b47a151007b4db089f2349aa58bce8d1fc/bin/bucc#L8  
+        export PATH=/home/ubuntu/lab-ops/bin:/home/ubuntu/lab-ops/bin/bucc/bin:/home/ubuntu/.local/bin:"${PATH}"
+        if [ -f /home/ubuntu/.functions ]; then
+            . /home/ubuntu/.functions
+            mgmt # bin/bucc_env sourcing
         fi
+  - name: Make directory for /home/ubuntu/lab-ops-state/state
+    file:
+      path: /home/ubuntu/lab-ops-state/state
+      state: directory
+  - name: Ensure /home/ubuntu/lab-ops-state/.gitignore exists and prevents director-vars-*.yml being commited
+    lineinfile:
+      path: /home/ubuntu/lab-ops-state/.gitignore
+      line: director-vars-*.yml
+      create: yes
+  - name: Insert/Update .profile with env vars for GOVC and VCENTER
+    blockinfile:
+      path: /home/ubuntu/.profile
+      marker: "# {mark} ANSIBLE MANAGED BLOCK FOR ENV VARS"
+      block: |
+        # GOVC specific config. GOVC_ prefix usually implies using govc path identifiers e.g. /drinks-cl/vm/my-vm-name
+        export GOVC_URL=""
+        export GOVC_NETWORK=""
+        export GOVC_DATACENTER=""
+        export GOVC_CLUSTER=""
+        # VCENTER config not associated with GOVC directly. Using _NAME suffix to be clear we dont need the GOVC style path e.g. my-folder vs /my-dc/vm/my-folder
+        export VCENTER_FOLDER_NAME=""
+        export VCENTER_RESOURCE_POOL_NAME=""
+        export VCENTER_DNS="" # e.g. [ 8.8.4.4 ] 
+        export VCENTER_DATASTORE_PATTERN="" # e.g. "[a-zA-Z]*-ds$". See bosh-deployment/vsphere/cpi.yml datastore_pattern and persistent_datastore_pattern fields
+        # BUCC VM NETWORK INFO
+        export BUCC_VM_IP=""
+        export BUCC_VM_GATEWAY=""
+        export BUCC_VM_CIDR=""
+        # BUCC CLOUD CONFIG FOR BOSH
+        export BUCC_BOSH_RESERVED_IP_RANGES_YAML_ARRAY="" # Expected to be in the format "[ 10.0.0.1 - 10.0.0.3, 10.0.0.15 - 10.0.0.49, 10.0.0.50 - 10.0.0.250 ]"
+        export BUCC_BOSH_VCENTER_DATASTORE_NAMES_YAML_ARRAY="" # Expecting in format [ 'my-ds', 'my-other-ds']. Keeping in this section rather than VCENTER_* as its the format only used in cloud-config.yml. See VCENTER_DATASTORE_PATTERN for the more general bosh format of the same information
+        export BUCC_BOSH_STATIC_IP_CONCOURSE_WORKER=""
+        export BUCC_BOSH_STATIC_IP_MINIO=""
