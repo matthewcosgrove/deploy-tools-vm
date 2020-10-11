@@ -80,7 +80,7 @@
         export BUCC_WRAPPER_ROOT_DIR="/home/ubuntu/lab-ops"
         state_repo_root_dir="/home/ubuntu/lab-ops-state"
         export BBL_STATE_DIR="${state_repo_root_dir}/state" # BBL_STATE_DIR is the convention use by BUCC https://github.com/starkandwayne/bucc/blob/2af7a2b47a151007b4db089f2349aa58bce8d1fc/bin/bucc#L8  
-        export PATH=/home/ubuntu/lab-ops/bin:/home/ubuntu/lab-ops/bin/bucc/bin:/home/ubuntu/.local/bin:"${PATH}"
+        export PATH=/home/ubuntu/lab-ops/bin:/home/ubuntu/lab-ops/src/bucc/bin:/home/ubuntu/.local/bin:"${PATH}"
         if [ -f /home/ubuntu/.functions ]; then
             . /home/ubuntu/.functions
             mgmt # bin/bucc_env sourcing
