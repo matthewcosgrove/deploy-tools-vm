@@ -10,3 +10,28 @@
       name: "ubuntu_user"
     vars:
       ansible_become: yes
+  - name: "Include vim"
+    include_role:
+      name: "vim"
+    vars:
+      ansible_become: yes
+  - name: "Include vim_plugins"
+    include_role:
+      name: "vim_plugins"
+    vars:
+      ansible_become: yes
+  - name: "Include bucc_tools"
+    include_role:
+      name: "bucc_tools"
+    vars:
+      ansible_become: yes
+  - name: clone tools vm provisioning scripts
+    git:
+      repo: "https://github.com/matthewcosgrove/tools-vm-scripts.git"
+      dest: "/home/ubuntu/tools-vm-scripts"
+      version: "master"
+      accept_hostkey: yes
+  - name: Create user specific .gitconfig
+    template:
+      src: gitconfig.j2
+      dest: /home/ubuntu/.gitconfig

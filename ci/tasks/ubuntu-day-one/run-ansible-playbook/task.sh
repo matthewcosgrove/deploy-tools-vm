@@ -1,9 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-ansible --version
 
-vm_ip_address=$(cat vm-ip-address/ip.txt)
+export VM_IP_ADDRESS=$(cat vm-ip-address/ip.txt)
 
 TMPDIR=""¬
 TMPDIR=$(mktemp -d -t dynamic_inventory.XXXXXX)
@@ -13,12 +12,15 @@ INVENTORY_FILE="${TMPDIR}"/inventory.yml
 cat <<EOF > "${INVENTORY_FILE}"
 tools:
   hosts:
-    ${vm_ip_address}:
-      ansible_user: ${VM_USERNAME}
-      ansible_password: ${VM_PASSWORD}
+    ${VM_IP_ADDRESS}:
+      ansible_user: "${VM_USERNAME}"
+      ansible_password: "${VM_PASSWORD}"
       ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+      git_config_username: "${GIT_CONFIG_USERNAME}"
+      git_config_email: "${GIT_CONFIG_EMAIL}"
 EOF
 
+ansible --version
 ansible-inventory -i "${INVENTORY_FILE}" --list
 
 ansible -i "${INVENTORY_FILE}" -m ping tools
