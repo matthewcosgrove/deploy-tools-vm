@@ -2,6 +2,7 @@
     "builders": [
       {
         "type": "vsphere-iso",
+
 	"convert_to_template": "{{user `convert_to_template`}}",
         "cluster": "{{user `vcenter_cluster`}}",
         "resource_pool": "{{user `vcenter_resource_pool`}}",
