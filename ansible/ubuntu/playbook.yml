@@ -15,6 +15,14 @@
       name: "vim"
     vars:
       ansible_become: yes
+  - name: Recursively change ownership of a directory
+    file:
+      path: /home/ubuntu/.vim
+      state: directory
+      recurse: yes
+      owner: ubuntu
+      group: ubuntu
+    become: true
   - name: "Include vim_plugins"
     include_role:
       name: "vim_plugins"
@@ -25,6 +33,18 @@
       name: "bucc_tools"
     vars:
       ansible_become: yes
+  - name: "Include geerlingguy.packer role"
+    include_role:
+      name: "geerlingguy.packer"
+    vars:
+      ansible_become: yes
+      packer_version: "1.6.4"
+  - name: clone lab-ops bucc helper for vcenter
+    git:
+      repo: "https://github.com/matthewcosgrove/lab-ops.git"
+      dest: "/home/ubuntu/lab-ops"
+      version: "master"
+      accept_hostkey: yes
   - name: clone tools vm provisioning scripts
     git:
       repo: "https://github.com/matthewcosgrove/tools-vm-scripts.git"
@@ -35,3 +55,22 @@
     template:
       src: gitconfig.j2
       dest: /home/ubuntu/.gitconfig
+  - name: Install minio cli
+    script: scripts/install_minio_cli.sh
+  - name: Create symbolic links for dotfiles
+    file:
+      src: "/home/ubuntu/tools-vm-scripts/dotfiles/{{ item }}"
+      dest: "/home/ubuntu/{{ item }}"
+      state: link
+    loop:
+     - .vimrc
+     - .bash_aliases
+     - .functions
+  - name: Insert/Update source of .functions in .bashrc
+    blockinfile:
+      path: /home/ubuntu/.bashrc
+      marker: "# {mark} ANSIBLE MANAGED BLOCK"
+      block: |
+        if [ -f ~/.functions ]; then
+            . ~/.functions
+        fi
