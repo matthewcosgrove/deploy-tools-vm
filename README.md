@@ -12,5 +12,5 @@ NOTE: You will need to set the appropriate environment variables for each script
 
 ```
 ./init/packer_build_infra_template.py
-./init/clone_from_template.sh
+./init/clone_from_template.py
 ```
