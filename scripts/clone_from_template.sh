@@ -8,7 +8,7 @@ new_vm_path="${GOVC_FOLDER}"/"${VM_HOSTNAME}"
 echo "Preparing to create VM ${new_vm_path} from template ${template_path} via govc"
 echo "Info for ${template_path}"
 govc vm.info "${template_path}"
-govc vm.clone -h # check the defaults via the env vars are populated
+govc vm.clone -h | grep GOVC_ # check the defaults via the env vars are populated
 govc vm.clone -waitip=true -vm "${VM_TEMPLATE_HOSTNAME}" "${VM_HOSTNAME}"
 # govc vm.clone -vm "${VM_TEMPLATE_HOSTNAME}" -customization="MyVCenterCustomization" "${VM_HOSTNAME}"
 # For reference, if we need dynamic set up we can use..
