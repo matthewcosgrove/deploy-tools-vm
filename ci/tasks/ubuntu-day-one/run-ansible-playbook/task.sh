@@ -23,6 +23,7 @@ tools:
       git_config_email: "${GIT_CONFIG_EMAIL}"
 EOF
 
+export ANSIBLE_FORCE_COLOR='1'
 ansible --version
 ansible-inventory -i "${INVENTORY_FILE}" --list
 
