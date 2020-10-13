@@ -7,6 +7,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+unset GOVC_RESOURCE_POOL GOVC_NETWORK
 required_template_name="${VMWARE_TEMPLATE_NAME}"
 echo "Expected template to use is ${required_template_name}. Checking it exists.."
 out=$(govc vm.info ${required_template_name})
