@@ -9,12 +9,12 @@ MANDATORY_ENV_VARS = ["VM_HOSTNAME",
         "GOVC_DATASTORE", "GOVC_FOLDER", "GOVC_CLUSTER", 
         "GOVC_RESOURCE_POOL", "GOVC_NETWORK"]
 
-isMandatoryVarMissing = False
+is_mandatory_var_missing = False
 for var in MANDATORY_ENV_VARS:
     if var not in os.environ:
-        isMandatoryVarMissing = True
+        is_mandatory_var_missing = True
         print("Mandatory env var {} is not set".format(var))
-if isMandatoryVarMissing:
+if is_mandatory_var_missing:
     raise EnvironmentError("Failed because mandatory env vars not set. See output further above for details")
 
 for env_var in os.environ:

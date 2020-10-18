@@ -12,12 +12,12 @@ MANDATORY_ENV_VARS = ["VM_HOSTNAME", "VM_USERNAME", "VM_PASSWORD",
         "GOVC_DATASTORE", "GOVC_FOLDER", "GOVC_CLUSTER", 
         "GOVC_RESOURCE_POOL", "GOVC_NETWORK"]
 
-isMandatoryVarMissing = False
+is_mandatory_var_missing = False
 for var in MANDATORY_ENV_VARS:
     if var not in os.environ:
-        isMandatoryVarMissing = True
+        is_mandatory_var_missing = True
         print("Mandatory env var {} is not set".format(var))
-if isMandatoryVarMissing:
+if is_mandatory_var_missing:
     raise EnvironmentError("Failed because mandatory env vars not set. See output further above for details")
 
 for env_var in os.environ:
@@ -35,10 +35,11 @@ os.environ['VCENTER_RESOURCE_POOL_NAME'] = os.getenv('GOVC_RESOURCE_POOL')
 os.environ['VCENTER_NETWORK'] = os.getenv('GOVC_NETWORK')
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
-packer_json_file_dir_abs_path="{}/../packer/ubuntu/".format(script_dir)
-packer_json_file_name="ubuntu_1804.json"
-os.environ['PACKER_JSON_FILE_DIR'] = packer_json_file_dir_abs_path
-os.environ['PACKER_JSON_FILE_NAME'] = packer_json_file_name
+if "PACKER_JSON_FILE_DIR" not in os.environ: # Allowing this to be overriden
+    packer_json_file_dir_abs_path="{}/../packer/ubuntu/".format(script_dir)
+    packer_json_file_name="ubuntu_1804.json"
+    os.environ['PACKER_JSON_FILE_DIR'] = packer_json_file_dir_abs_path
+    os.environ['PACKER_JSON_FILE_NAME'] = packer_json_file_name
 os.environ['PACKER_CONVERT_TO_TEMPLATE'] = "true"
 
 script_abs_path="{}/../scripts/packer_build_infra_template.sh".format(script_dir)
