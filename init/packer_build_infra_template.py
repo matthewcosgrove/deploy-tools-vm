@@ -2,7 +2,7 @@
 
 import os
 import subprocess
-from subprocess import call
+from subprocess import check_call
 #import sys
 #if sys.version_info[0] < 3:
 #    raise Exception("Must be using Python 3")
@@ -35,6 +35,8 @@ os.environ['VCENTER_RESOURCE_POOL_NAME'] = os.getenv('GOVC_RESOURCE_POOL')
 os.environ['VCENTER_NETWORK'] = os.getenv('GOVC_NETWORK')
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
+govc_script_abs_path="{}/../scripts/test_govc_config.sh".format(script_dir)
+check_call(govc_script_abs_path)
 if "PACKER_JSON_FILE_DIR" not in os.environ: # Allowing this to be overriden
     packer_json_file_dir_abs_path="{}/../packer/ubuntu/".format(script_dir)
     packer_json_file_name="ubuntu_1804.json"
@@ -43,5 +45,5 @@ if "PACKER_JSON_FILE_DIR" not in os.environ: # Allowing this to be overriden
 os.environ['PACKER_CONVERT_TO_TEMPLATE'] = "true"
 
 script_abs_path="{}/../scripts/packer_build_infra_template.sh".format(script_dir)
-return_code = call(script_abs_path)
+return_code = check_call(script_abs_path)
 
