@@ -3,9 +3,11 @@ export GOVC_URL=""
 export GOVC_NETWORK=""
 export GOVC_DATACENTER=""
 export GOVC_CLUSTER=""
-# VCENTER config not associated with GOVC directly. Using _NAME suffix to be clear we dont need the GOVC style path e.g. my-folder vs /my-dc/vm/my-folder
+export GOVC_DATASTORE=""
+export GOVC_RESOURCE_POOL=""
+# VCENTER config not associated with GOVC directly. Using _NAME suffix to be clear we dont need the GOVC style path e.g. here we can use my-folder as opposed to /my-dc/vm/my-folder
 export VCENTER_FOLDER_NAME=""
-export VCENTER_RESOURCE_POOL_NAME=""
+export VCENTER_RESOURCE_POOL_NAME="${GOVC_RESOURCE_POOL}"
 export VCENTER_DNS="" # e.g. [ 8.8.4.4 ] 
 export VCENTER_DATASTORE_PATTERN="" # e.g. "[a-zA-Z]*-ds$". See bosh-deployment/vsphere/cpi.yml datastore_pattern and persistent_datastore_pattern fields
 # BUCC VM NETWORK INFO
